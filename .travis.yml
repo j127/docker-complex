@@ -1,0 +1,28 @@
+# If it fails with "rakefile not found", then try uncommenting the next line.
+# language: generic
+sudo: required
+
+services:
+    - docker
+
+before_install:
+    - docker build -t j127/docker-complex -f ./client/Dockerfile.dev ./client
+
+# Run the React tests. (Add tests for other containers if you want.)
+script:
+    - docker container run -e CI=true j127/docker-complex npm test
+
+# Build the production containers, giving them whatever names you want.
+after_success:
+    - docker image build -t j127/multi-client ./client
+    - docker image build -t j127/multi-nginx ./nginx
+    - docker image build -t j127/multi-server ./server
+    - docker image build -t j127/multi-worker ./worker
+
+    # Log in to Docker Hub (environment variables get added to Travis).
+    # This format allows you to log in with a one-line command.
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    - docker push j127/multi-client
+    - docker push j127/multi-nginx
+    - docker push j127/multi-server
+    - docker push j127/multi-worker
