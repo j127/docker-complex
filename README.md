@@ -11,3 +11,5 @@ Main technologies used:
 - React.js (SPA)
 - Redis
 - Postgres
+
+I started to add deployment settings for AWS, but I'm not going to deploy there, so I've abandoned that branch.
