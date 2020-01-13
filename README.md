@@ -5,7 +5,7 @@ This is an example of a multi-container Dockerized application based on a [video
 Main technologies used:
 
 - Docker
-- Nginx
+- Nginx (2 containers, ports 80 and 3000)
 - Express.js (API)
 - React.js (SPA)
 - Redis
